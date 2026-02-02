@@ -1,57 +1,84 @@
-<h1 align="center">
-  Convex SaaS
-</h1>
+# Food Tracker - Telegram Mini-App
 
-<div align="center">
-  <p>
-  A production-ready Convex Stack for your next SaaS application with Stripe integration, TanStack, Resend, Tailwindcss, and shadcn.
-  </p>
-</div>
+A Telegram Mini-App for tracking meals and how they make you feel. Built with Convex, React, and Tailwind CSS.
 
-<div align="center">
-    <a href="https://convex-saas.netlify.app">Live Demo</a> |  <a href="https://github.com/get-convex/convex-saas/tree/main/docs">Documentation</a>
-  <div align="center"><br>
-  <a href="https://labs.convex.dev/convex-saas"> <img src="https://github.com/get-convex/convex-saas/blob/v1markchanges/public/images/convexsaas.png" alt="convex saas" /></a>
-</div>
-   
-  </p>
-</div>
+## Features
 
-# Features
+- 🍽️ Log meals with name, mood, and notes
+- 😊 Track how food makes you feel (great/good/neutral/bad/terrible)
+- 📱 Telegram Mini-App integration
+- 🔒 Secure authentication via Telegram
+- ⚡ Real-time data with Convex
 
-Features provided out of the box:
+## Setup
 
-- 🧩 **Convex**: A complete, reactive, typesafe backend with authentication and file storage.
-- ⚡ **Vite**: Next-Gen Frontend Tooling.
-- 🛍️ **Stripe**: Subscription Plans, Customer Portal, and more.
-- 🔑 **Authentication**: Email Code and Social Logins.
-- 🎨 **TailwindCSS**: Utility-First CSS Framework.
-- 📐 **ShadCN**: Composable React components.
-- 🌙 **Easy Theming**: Switch between Light and Dark modes with ease.
-- 🗺️ **TanStack Router**: Simple Route Definitions.
-- 📧 **Resend**: Email for Developers.
-- 💌 **React Email**: Customizable Emails with React.
-- 📋 **Conform**: Type-Safe Form Validation based on Web Fundamentals.
-- 📥 **File Uploads**: Profile Picture Uploads with Convex.
-- 🌐 **I18N**: Internationalization for your App.
-- 🧰 **TanStack Development Tools**: Enhanced Development Experience.
-- 💅 **Modern UI**: Carefully crafted UI with a Modern Design System.
-- 🏕 **Custom Pages**: Landing, Onboarding, Dashboard and Admin Pages.
-- 📱 **Responsive**: Works on all devices, from Mobile to Desktop.
--
+### 1. Prerequisites
 
-## [Live Demo](https://convex-saas.netlify.app)
+- Node.js 18+
+- Bun or npm
+- A Telegram Bot (via @BotFather)
 
-> [!NOTE]
-> Convex SaaS is an Open Source Template that is a direct port of the amazing
-> work of [Daniel Kanem](https://twitter.com/DanielKanem) in [Remix SaaS](https://github.com/dev-xo/remix-saas).
-> As that template does, this one shares common bits of code with: [Indie
-> Stack](https://github.com/remix-run/indie-stack), [Epic
-> Stack](https://github.com/epicweb-dev/epic-stack), [Supa Stripe
-> Stack](https://github.com/rphlmr/supa-stripe-stack), and some other amazing
-> Open Source resources. Check them out, please!
+### 2. Install Dependencies
 
-## Getting Started
+```bash
+bun install
+# or
+npm install
+```
 
-Check out the [Getting Started Documentation](https://github.com/get-convex/convex-saas/tree/main/docs) to get up
-and running.
+### 3. Convex Setup
+
+```bash
+npx convex dev
+```
+
+Set environment variable in Convex dashboard:
+```
+TELEGRAM_BOT_TOKEN=your_bot_token_from_botfather
+```
+
+### 4. Telegram Bot Configuration
+
+1. Go to @BotFather
+2. Create a new bot or use existing
+3. Set up Mini App:
+   ```
+   /mybots → Your Bot → Bot Settings → Menu Button → Configure menu button
+   ```
+4. Set the Mini App URL to your deployed Convex site
+
+### 5. Deploy
+
+```bash
+npx convex deploy
+```
+
+## Development
+
+```bash
+# Start Convex dev server
+npx convex dev
+
+# Start frontend (in another terminal)
+bun run dev
+# or
+npm run dev
+```
+
+## Project Structure
+
+```
+convex/
+  schema.ts       # Database schema
+  auth.ts         # Telegram auth functions
+  foodEntries.ts  # Food entry CRUD
+src/
+  routes/
+    index.tsx     # Main food tracker UI
+  hooks/
+    useTelegramAuth.ts  # Telegram auth hook
+```
+
+## License
+
+MIT
