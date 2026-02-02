@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useMutation } from "convex/react";
+import { useMutation, useAction } from "convex/react";
 import { api } from "../convex/_generated/api";
 
 // Telegram WebApp types
@@ -37,6 +37,7 @@ interface TelegramUser {
 export function useTelegramAuth() {
   const [user, setUser] = useState<TelegramUser | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const verifyTelegramAuth = useAction(api.telegramAuth.verifyTelegramAuth);
   const authenticate = useMutation(api.auth.authenticate);
 
   useEffect(() => {
@@ -45,7 +46,7 @@ export function useTelegramAuth() {
       const tg = window.Telegram?.WebApp;
       
       if (!tg) {
-        // Not in Telegram - for development, you might want to mock this
+        // Not in Telegram - for development
         console.log("Not running in Telegram Mini App");
         setIsLoading(false);
         return;
@@ -64,8 +65,17 @@ export function useTelegramAuth() {
       }
 
       try {
-        // Authenticate with Convex
-        const userData = await authenticate({ initData });
+        // First verify the Telegram auth (Node.js action)
+        const telegramData = await verifyTelegramAuth({ initData });
+        
+        if (!telegramData) {
+          console.error("Telegram auth verification failed");
+          setIsLoading(false);
+          return;
+        }
+
+        // Then create/update user in our database
+        const userData = await authenticate(telegramData);
         if (userData) {
           setUser(userData as TelegramUser);
         }
@@ -77,7 +87,7 @@ export function useTelegramAuth() {
     };
 
     initTelegram();
-  }, [authenticate]);
+  }, [verifyTelegramAuth, authenticate]);
 
   return { user, isLoading };
 }
